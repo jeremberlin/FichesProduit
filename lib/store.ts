@@ -26,7 +26,7 @@ async function blobRead(blobUrl: string): Promise<string> {
 
 async function blobWrite(pathname: string, content: string): Promise<string> {
   const { put } = await blobImport()
-  const blob = await put(pathname, content, { access: 'public', addRandomSuffix: false })
+  const blob = await put(pathname, content, { access: 'public', addRandomSuffix: false, allowOverwrite: true })
   return blob.url
 }
 

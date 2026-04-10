@@ -1,0 +1,31 @@
+{
+  "id": "esg",
+  "nom": "ESG",
+  "site_web": "https://www.esg.fr",
+  "certificateur": "ESGCV",
+  "lien_diplomes": "https://www.esg.fr/ecole/diplomes-certifications",
+
+  "blocs_generiques": {
+    "modalites_acces": "L'admission se fait sur dossier et entretien de motivation.\nLes candidatures sont ouvertes tout au long de l'année.\nPour candidater, rendez-vous sur notre site www.esg.fr, rubrique Admission.",
+
+    "tarifs": "Les tarifs de formation sont consultables sur notre page Admission, rubrique Tarifs et financement.\nDans le cadre de l'alternance, aucun frais de scolarité n'est à la charge de l'alternant.",
+
+    "contacts": "Pour toute information complémentaire, contactez notre service des admissions.",
+
+    "methodes_mobilisees": "Les méthodes pédagogiques mobilisées sont les suivantes :\n- Cours en face à face avec des intervenants professionnels\n- Travaux de groupe et challenges professionnels\n- E-learning et ressources numériques\n- Conférences et rencontres avec des professionnels\n- Mises en situation professionnelle et études de cas",
+
+    "modalites_evaluation": "Les modalités d'évaluation comprennent :\n- Contrôle continu (devoirs, études de cas, travaux de groupe)\n- Examens de fin de semestre\n- Projets professionnels et soutenances\n- Rapports de stage ou d'alternance",
+
+    "accessibilite_handicap": "L'ESG s'engage à accueillir les personnes en situation de handicap.\nUn référent handicap est disponible pour vous accompagner dans vos démarches et adapter votre parcours de formation.\nContact : handicap@esg.fr",
+
+    "blocs_competences_generique": "Si vous n'obtenez pas le titre RNCP, sachez toutefois que si vous avez validé l'ensemble des compétences relatives à un bloc, ce bloc de compétences vous est acquis. Vous pouvez vous représenter autant de fois que possible aux épreuves liées aux autres blocs de compétences manquants dans la mesure où le titre est « actif » (France Compétences).",
+
+    "equivalences": "Si vous avez suivi une formation approchante ailleurs, il existe des équivalences sur certains blocs de compétences. Voir le détail sur la fiche de notre certification sur le site de France Compétences."
+  },
+
+  "indicateurs": {
+    "indicateur_1": "Chiffres ESG\n8200 entreprises ont recruté nos étudiants en 2022-2023\n69% des étudiants en alternance (2023-2024)\n61 500 anciens élèves (source LinkedIn mai 2025)\n44 universités partenaires à l'international (2025)",
+
+    "indicateur_cfa": "Taux d'interruption de formation des apprentis du CFA ESGCV en cours d'année (2023-2024) : 0.3%"
+  }
+}

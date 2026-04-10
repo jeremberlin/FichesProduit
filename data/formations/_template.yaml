@@ -1,0 +1,55 @@
+# ============================================================
+# TEMPLATE — Données spécifiques à une formation
+# Copier ce fichier et le renommer pour chaque nouvelle fiche
+# Exemple : esg_mastere_achats_2026-2028.yaml
+# ============================================================
+
+# --- Identité de la formation ---
+ecole: "esg"                          # Réfère au fichier data/ecoles/esg.yaml
+intitule: ""                          # Ex: "Mastère Management des achats"
+numero_rncp: ""                       # Ex: "39238" — OBLIGATOIRE pour les titres RNCP
+                                      # Laisser vide si formation qualifiante (pas de titre RNCP)
+annees_scolaires: []                  # Ex: ["2026-2027", "2027-2028"]
+type_version: "V0"                    # V0, V1, V2...
+
+# --- Données récupérées depuis France Compétences (auto-remplies) ---
+# Ces champs seront remplis automatiquement à partir du n° RNCP.
+# Vous pouvez aussi les remplir manuellement si besoin.
+nomenclature_titre: ""                # Ex: "Titre Manager de la performance achats délivré par ESGCV, NSF 312p - Niveau 7..."
+niveau: ""                            # Ex: "7"
+code_nsf: ""                          # Ex: "312p"
+date_enregistrement: ""               # Ex: "27/06/2024"
+blocs_competences: []                 # Liste des noms de blocs (deviennent les "objectifs compétences")
+modalites_evaluation_certification: "" # Modalités d'évaluation spécifiques au titre
+debouches: []                         # Liste des métiers visés
+equivalences_rncp: ""                 # Texte sur les équivalences depuis France Compétences
+
+# --- Données du catalogue commercial ---
+duree_heures: ""                      # Ex: "469 heures par an"
+duree_description: ""                 # Texte complet sur la durée
+dates_rentree: ""                     # Ex: "Octobre 2026"
+rythme: ""                            # "alternance", "initial", ou "alternance / initial"
+
+# --- Prérequis (spécifiques à la formation) ---
+prerequis: ""                         # Texte complet des prérequis par année
+
+# --- Programme (issu des matrices pédagogiques) ---
+# Si une matrice Excel est fournie dans sources/matrices/, elle sera parsée automatiquement.
+# Sinon, remplir manuellement ci-dessous.
+matrice_fichier: ""                   # Ex: "matrice_mastere_achats.xlsx"
+programme: {}                         # Structure: { "année 1": { "UE1": ["matière1", "matière2"], ... }, ... }
+
+# --- Contenus rédactionnels (V1+, optionnels pour V0) ---
+storytelling: ""                      # Texte de présentation marketing
+objectifs_pedagogiques: ""            # Texte "Pourquoi choisir cette formation..."
+url_site: ""                          # URL de la page programme sur le site web
+
+# --- Données par ville (indicateurs) ---
+villes_deploiement: []                # Ex: ["Bordeaux", "Toulouse", "Lyon"]
+taux_obtention_par_ville: {}          # Ex: { "Bordeaux": "95% (promotion 2024)", "Lyon": "Nouvelle formation" }
+indicateur_2: ""                      # Taux d'insertion professionnelle
+
+# --- Champs spécifiques ---
+passerelles: ""                       # Texte sur les passerelles vers d'autres formations
+suite_de_parcours: ""                 # Formations accessibles après ce cursus
+sections_supplementaires: []          # Sections à rajouter (V1+)

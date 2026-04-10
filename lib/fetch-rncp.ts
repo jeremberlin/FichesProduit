@@ -97,32 +97,38 @@ async function ensureCSVData(): Promise<boolean> {
   }
 
   const arrayBuffer = await response.arrayBuffer()
-  const zipPath = path.join(CSV_DIR, 'export.zip')
-  fs.writeFileSync(zipPath, Buffer.from(arrayBuffer))
+  const zipBuffer = Buffer.from(arrayBuffer)
 
-  // Extract ZIP using Node.js built-in (or child_process)
-  const { execSync } = await import('child_process')
-
-  // Use Python to extract (handles encoding issues with filenames)
-  execSync(`python3 -c "
-import zipfile, os
-zf = zipfile.ZipFile('${zipPath}')
-for name in zf.namelist():
-    data = zf.read(name)
-    # Clean filename - handle encoding issues
-    try:
-        safe_name = name.encode('cp437').decode('utf-8')
-    except:
-        safe_name = name
-    safe_name = os.path.basename(safe_name).replace(' ', '_')
-    out = os.path.join('${CSV_DIR}', safe_name)
-    with open(out, 'wb') as f:
-        f.write(data)
-    print(f'  Extrait: {safe_name} ({len(data)} octets)')
-"`, { stdio: 'inherit' })
-
-  // Nettoyage
-  fs.unlinkSync(zipPath)
+  // Extract ZIP using yauzl (pure Node.js, pas de dépendance Python)
+  const yauzl = await import('yauzl')
+  await new Promise<void>((resolve, reject) => {
+    yauzl.fromBuffer(zipBuffer, { lazyEntries: true }, (err, zipfile) => {
+      if (err || !zipfile) return reject(err || new Error('ZIP vide'))
+      zipfile.readEntry()
+      zipfile.on('entry', (entry) => {
+        if (/\/$/.test(entry.fileName)) {
+          zipfile.readEntry()
+          return
+        }
+        // Nettoyer le nom de fichier
+        const safeName = path.basename(entry.fileName)
+          .replace(/[^\w.\-]/g, '_')
+          .replace(/__+/g, '_')
+        zipfile.openReadStream(entry, (err2, readStream) => {
+          if (err2 || !readStream) { zipfile.readEntry(); return }
+          const outPath = path.join(CSV_DIR, safeName)
+          const writeStream = fs.createWriteStream(outPath)
+          readStream.pipe(writeStream)
+          writeStream.on('finish', () => {
+            console.log(`  Extrait: ${safeName}`)
+            zipfile.readEntry()
+          })
+        })
+      })
+      zipfile.on('end', resolve)
+      zipfile.on('error', reject)
+    })
+  })
 
   const csvCount = fs.readdirSync(CSV_DIR).filter(f => f.endsWith('.csv')).length
   console.log(`[RNCP] ${csvCount} fichiers CSV extraits.`)

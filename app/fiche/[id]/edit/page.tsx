@@ -52,17 +52,25 @@ export default function EditFichePage() {
       body: JSON.stringify(data),
     })
 
-    const res = await fetch(`/api/fiches/${params.id}/generate`, { method: 'POST' })
-    if (res.ok) {
-      const blob = await res.blob()
-      const url = URL.createObjectURL(blob)
-      const a = document.createElement('a')
-      a.href = url
-      a.download = res.headers.get('Content-Disposition')?.split('filename=')[1]?.replace(/"/g, '') || 'fiche.docx'
-      a.click()
-      URL.revokeObjectURL(url)
-      router.push(`/fiche/${params.id}`)
-    }
+    try {
+      const res = await fetch(`/api/fiches/${params.id}/generate`, { method: 'POST' })
+      if (res.ok) {
+        const blob = await res.blob()
+        const url = URL.createObjectURL(blob)
+        const a = document.createElement('a')
+        a.href = url
+        const disposition = res.headers.get('Content-Disposition') || ''
+        const filenameMatch = disposition.match(/filename="?([^"]+)"?/)
+        a.download = filenameMatch ? filenameMatch[1] : 'fiche.docx'
+        document.body.appendChild(a)
+        a.click()
+        document.body.removeChild(a)
+        setTimeout(() => {
+          URL.revokeObjectURL(url)
+          router.push(`/fiche/${params.id}`)
+        }, 1000)
+      }
+    } catch { /* ignore */ }
     setGenerating(false)
   }
 

@@ -52,16 +52,30 @@ export default function NouvelleFichePage() {
     const id = await saveFiche()
     if (!id) { setGenerating(false); return }
 
-    const res = await fetch(`/api/fiches/${id}/generate`, { method: 'POST' })
-    if (res.ok) {
-      const blob = await res.blob()
-      const url = URL.createObjectURL(blob)
-      const a = document.createElement('a')
-      a.href = url
-      a.download = res.headers.get('Content-Disposition')?.split('filename=')[1]?.replace(/"/g, '') || 'fiche.docx'
-      a.click()
-      URL.revokeObjectURL(url)
-      router.push(`/fiche/${id}`)
+    try {
+      const res = await fetch(`/api/fiches/${id}/generate`, { method: 'POST' })
+      if (res.ok) {
+        const blob = await res.blob()
+        const url = URL.createObjectURL(blob)
+        const a = document.createElement('a')
+        a.href = url
+        const disposition = res.headers.get('Content-Disposition') || ''
+        const filenameMatch = disposition.match(/filename="?([^"]+)"?/)
+        a.download = filenameMatch ? filenameMatch[1] : 'fiche.docx'
+        document.body.appendChild(a)
+        a.click()
+        document.body.removeChild(a)
+        // Laisser le temps au navigateur de démarrer le téléchargement
+        setTimeout(() => {
+          URL.revokeObjectURL(url)
+          router.push(`/fiche/${id}`)
+        }, 1000)
+      } else {
+        const err = await res.json().catch(() => ({}))
+        alert(err.error || 'Erreur lors de la generation')
+      }
+    } catch {
+      alert('Erreur lors de la generation du document')
     }
     setGenerating(false)
   }

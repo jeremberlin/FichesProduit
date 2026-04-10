@@ -32,10 +32,13 @@ export default function Dashboard() {
       const url = URL.createObjectURL(blob)
       const a = document.createElement('a')
       a.href = url
-      a.download = res.headers.get('Content-Disposition')?.split('filename=')[1]?.replace(/"/g, '') || 'fiche.docx'
+      const disposition = res.headers.get('Content-Disposition') || ''
+      const filenameMatch = disposition.match(/filename="?([^"]+)"?/)
+      a.download = filenameMatch ? filenameMatch[1] : 'fiche.docx'
+      document.body.appendChild(a)
       a.click()
-      URL.revokeObjectURL(url)
-      loadFiches()
+      document.body.removeChild(a)
+      setTimeout(() => { URL.revokeObjectURL(url); loadFiches() }, 1000)
     }
   }
 
